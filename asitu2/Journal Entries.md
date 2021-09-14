@@ -1,4 +1,5 @@
 # Andrew Situ Notebook
+[[_TOC_]]
 
 # 9 - 9 - 2021 - Discussion with Professor Kwiat
 
