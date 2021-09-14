@@ -1,6 +1,6 @@
 # Andrew Situ Notebook
 
-# 9 - 10 - 2021 - Discussion with Professor Kwiat
+# 9 - 9 - 2021 - Discussion with Professor Kwiat
 
 The Team had a meeting with our sponsered professor, Professor Kwiat, about the project to clarify some of the project. Additionally he explained how the educational device would imitate how quantum entangelment would behave in the real world through the zoom whiteboard.
 
