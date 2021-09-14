@@ -1,6 +1,9 @@
 # Andrew Situ Notebook
 
-[[_TOC_]]
+Table of contents
+=================
+[9-9-2021 - Discussion with Professor Kwiat](## 9-9-2021 - Discussion with Professor Kwiat)
+
 
 # 9-9-2021 - Discussion with Professor Kwiat
 
