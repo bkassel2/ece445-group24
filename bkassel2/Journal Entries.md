@@ -4,6 +4,7 @@ We finally were able to meet with Professor Kwiat. He ran us through his vision 
 while he drew a rough design of what we were going to build, along with some math that helped us with the understanding of quantum physics (see 9-9 Kwiat Drawing.PNG). This was
 very useful as it allowed us to get a brief understanding of what we were going to take on.
 
+![](9-9 Kwiat Drawing.PNG)
 
 # 9/11/21 - Second meeting with Professor Kwiat
 
