@@ -2,8 +2,8 @@
 
 Table of contents
 =================
-*[Discussion with Professor Kwiat](# 9-9-2021 - Discussion with Professor Kwiat)
-
+<!--ts-->
+   [9-9-2021 - Discussion with Professor Kwiat](# 9-9-2021 - Discussion with Professor Kwiat)
 
 # 9-9-2021 - Discussion with Professor Kwiat
 
