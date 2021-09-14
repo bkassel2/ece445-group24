@@ -2,7 +2,7 @@
 
 Table of contents
 =================
-[9-9-2021 - Discussion with Professor Kwiat](# 9-9-2021 - Discussion with Professor Kwiat)
+*[Discussion with Professor Kwiat](# 9-9-2021 - Discussion with Professor Kwiat)
 
 
 # 9-9-2021 - Discussion with Professor Kwiat
