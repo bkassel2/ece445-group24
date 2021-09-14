@@ -4,7 +4,7 @@
 
 The Team had a meeting with our sponsered professor, Professor Kwiat, about the project to clarify some of the project. Additionally he explained how the educational device would imitate how quantum entangelment would behave in the real world through the zoom whiteboard.
 
-<img src="9-9_Kwiat_Drawing.png" width = "400"/>
+<img src="9-9_Kwiat_Drawing.png" width = "600"/>
 
 # 9-11-2021 - Team meeting for project proposal
 
