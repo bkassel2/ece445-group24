@@ -17,6 +17,9 @@ i2c = busio.I2C(board.SCL, board.SDA)
 
 # Create MPR121 object.
 mpr121 = adafruit_mpr121.MPR121(i2c)
+#mpr1212 = adafruit_mpr121.MPR121(i2c , address = 0x5b)
+#mpr1213 = adafruit_mpr121.MPR121(i2c , address = 0x5c)
+#mpr1214 = adafruit_mpr121.MPR121(i2c , address = 0x5d)
 
 
 # Import MPR121 module.
@@ -51,11 +54,7 @@ def colorWipe(strip, color, wait_ms=50):
             strip.setPixelColor((i + LED_SEPERATION)%LED_COUNT, color)
             if (i + LED_SEPERATION + 1)% LED_COUNT < LED_COUNT:
                 strip.setPixelColor((i + LED_SEPERATION + 1)%LED_COUNT, Color(0,0,0))
-        for j in range(12):
-        # Call is_touched and pass it then number of the input.  If it's touched
-        # it will return True, otherwise it will return False.
-           if mpr121[j].value:
-               print("Input {} touched!".format(j))
+
         #time.sleep(0.25)  # Small delay to keep from spamming output messages.
         strip.setPixelColor(i, color)
         strip.show()
@@ -123,25 +122,44 @@ if __name__ == '__main__':
     # Intialize the library (must be called once before other functions).
     strip1.begin()
     strip2.begin()
-
+    
     print ('Press Ctrl-C to quit.')
     if not args.clear:
         print('Use "-c" argument to clear LEDs on exit')
     color1 = Color(255,0,0) #red
     color2 = Color(0,0,255) #blue
+    s1flag = 0
+    s2flag = 0
+    times = 0
     try:
         s1p = strip1.numPixels() - 1
         s2p = strip2.numPixels() - 1
         while True:
-            print ('Color wipe animations.')
-
+            #print ('Color wipe animations.')
+            if times % 100 == 0 and s1flag == 1:
+                s1flag = 0
+                s1p = strip1.numPixels() - 1
+                s2p = strip2.numPixels() - 1 
+                colorWipe(strip1, Color(0,0,0), 10)
+                colorWipe(strip2, Color(0,0,0), 10)
             if s1p == -1:
                 s1p = LED_COUNT - 1
             if s2p == -1:
                 s2p = LED_COUNT - 1 
             quantumlights(strip1 , strip2, color1 , color2 , s1p, s2p)
-            s1p -= 1
-            s2p -= 1
+            for j in range(12):
+            # Call is_touched and pass it then number of the input.  If it's touched
+            # it will return True, otherwise it will return False.
+                if mpr121[j].value:
+                   print("Input {} touched!".format(j))
+                   s1flag = 1
+                   times = 0
+            
+            if s1flag == 0:
+                s1p -= 1
+            if s2flag == 0:
+                s2p -= 1
+            times += 1
             #colorWipe(strip1, Color(255, 0, 0))  # Red wipe
             #colorWipe(strip, Color(0, 255, 0))  # Blue wipe
             #colorWipe(strip, Color(0, 0, 255))  # Green wipe
@@ -150,3 +168,4 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         if args.clear:
             colorWipe(strip1, Color(0,0,0), 10)
+            colorWipe(strip2, Color(0,0,0), 10)
