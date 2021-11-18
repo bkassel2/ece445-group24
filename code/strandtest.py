@@ -26,7 +26,7 @@ mpr121 = adafruit_mpr121.MPR121(i2c , address = 0x5b)
 
 # Import MPR121 module.
 # LED strip configuration:
-LED_SEPERATION = 37
+LED_SEPERATION = 37     #Seperation in  4 pixel per inch 
 
 
 
@@ -41,8 +41,8 @@ LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 
 LED_PIN2       = 13
 LED_CHANNEL2   = 1
-PIXEL_WIDTH    = 1
-SPEED          = 1000.0
+PIXEL_WIDTH    = 3
+SPEED          = 3000.0
 # Define functions which animate LEDs in various ways.
 def colorWipe(strip, color, wait_ms=50):
     """Wipe color across display a pixel at a time."""
@@ -93,7 +93,7 @@ convert = {23:0 , 22:1 , 21:2 , 20:3 , 19:4 , 18:5, 17:6,
 touch_array = np.zeros(24)
 s1touch = np.zeros(12)
 def s1touch(s1):
-    pos = (s1 + 8) // 8
+    pos = (s1 + 8)%144 // 8
     pos1measurement = 0
     color1measurement = 0
     s1touch = np.zeros(12)
@@ -102,15 +102,38 @@ def s1touch(s1):
         # it will return True, otherwise it will return False.
            if mpr121[i].value:
                s1touch[i] = 1
-    if s1touch[(pos - 1)%12] == 1 and s1touch[(pos + 2)%12] == 1 :
+    if s1touch[(pos - 1)%12] == 1 and s1touch[(pos + LED_SEPERATION//8)%12] == 1 :
         pos1measurement = 1
-    if (s1touch[(pos + 1)%12]) or (s1touch[(pos + 2)% 12]):
-        color1measurement = 1
+    print("S1")
+    print(s1touch)
+    print(s1touch[0])
+    print(pos)
+    for i in range(LED_SEPERATION // 8 //2):
+        if pos + i < 12:
+            if (s1touch[(pos+ i)]):
+                color1measurement = 1
     # print (pos , (pos + LED_SEPERATION // 8)%24)
     return pos1measurement , color1measurement
 
+# s2touch = np.zeros(12)
+# def s2touch(s1):
+#     pos = (s1 + 8) // 8
+#     pos1measurement = 0
+#     color1measurement = 0
+#     s1touch = np.zeros(12)
+#     for i in range(12):
+#         # Call is_touched and pass it then number of the input.  If it's touched
+#         # it will return True, otherwise it will return False.
+#            if mpr1212[i].value:
+#                s1touch[i] = 1
+#     if s1touch[(pos - 1)%12] == 1 and s1touch[(pos + 2)%12] == 1 :
+#         pos1measurement = 1
+#     if (s1touch[(pos + 1)%12]) or (s1touch[(pos + 2)% 12]):
+#         color1measurement = 1
+#     # print (pos , (pos + LED_SEPERATION // 8)%24)
+#     return pos1measurement , color1measurement
 
-
+    
 
 
 # def touch_code(s1 , s2):
@@ -211,6 +234,8 @@ if __name__ == '__main__':
     s2flag = 0
     touch = 0
     times = 0
+    p1 = -1
+    p2 = -1
     touchsensors = np.zeros(24)
     try:
         s1p = strip1.numPixels() - 1
@@ -218,12 +243,12 @@ if __name__ == '__main__':
 
         while True:
             #print ('Color wipe animations.')
-            if times % 100 == 0 and s1flag == 1:
+            if (times % 100 == 0 or s2p == LED_COUNT)and s1flag == 1 :
+                print("reached")
                 s1flag = 0
                 s1p = strip1.numPixels() - 1
                 s2p = strip2.numPixels() - 1
-                touch = 0
-                color1 = red
+                color3 = color4 = purple
                 colorWipe(strip1, Color(0,0,0), 0.1)
                 colorWipe(strip2, Color(0,0,0), 0.1)
             if s1p == -1:
@@ -232,13 +257,24 @@ if __name__ == '__main__':
                 s2p = LED_COUNT - 1
             # print("Loop")
             # testlight()
-            quantumlights(strip1 , strip2, color1 , color2 ,color3 , color4, s1p, s2p)
-            x , y = s1touch(s1p)
-            if y:
+            if s1flag:
+                s1p = p1
+            quantumlights(strip1 , strip2, color1 , color2 ,color3 , color4, s2p, s1p)
+            pos1f , color1f = s1touch(s1p)
+            if color1f:
                 color3 = red
                 color4 = blue
-                
-            print(s1flag , y)
+                p1 = s1p
+                s1flag = 1
+                times = 1
+            # pos2f , color2f = s2touch(s2p) 
+            # if color2f:
+            #     color1 = red
+            #     color2 = blue
+            #     p2 = s2p
+            #     s2flag = 1
+            #     times = 1    
+            # print(pos1flag , color1f)
             # for j in range(12):
             # # Call is_touched and pass it then number of the input.  If it's touched
             # # it will return True, otherwise it will return False.
@@ -249,8 +285,8 @@ if __name__ == '__main__':
             #        s1flag = 1
             #        times = 0
             #        touch = 1
-            if touch == 1:
-                color1 = purple
+            # if touch == 1:
+            #     color1 = purple
             if s1flag == 0:
                 s1p -= 1
             if s2flag == 0:
