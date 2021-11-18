@@ -1,0 +1,265 @@
+#!/usr/bin/env python3
+# rpi_ws281x library strandtest example
+# Author: Tony DiCola (tony@tonydicola.com)
+#
+# Direct port of the Arduino NeoPixel library strandtest example.  Showcases
+# various animations on a strip of NeoPixels.
+
+import time
+from rpi_ws281x import *
+import argparse
+import board
+import busio
+import adafruit_mpr121
+import numpy as np
+import adafruit_mpr121
+
+# Create I2C bus.
+i2c = busio.I2C(board.SCL, board.SDA)
+
+# Create MPR121 object.
+mpr121 = adafruit_mpr121.MPR121(i2c , address = 0x5b)
+#mpr1212 = adafruit_mpr121.MPR121(i2c , address = 0x5b)
+#mpr1213 = adafruit_mpr121.MPR121(i2c , address = 0x5c)
+#mpr1214 = adafruit_mpr121.MPR121(i2c , address = 0x5d)
+
+
+# Import MPR121 module.
+# LED strip configuration:
+LED_SEPERATION = 37
+
+
+
+LED_COUNT      = 144 + LED_SEPERATION      # Number of LED pixels.
+LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
+#LED_PIN        = 10      # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
+LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
+LED_DMA        = 10      # DMA channel to use for generating signal (try 10)
+LED_BRIGHTNESS = 150     # Set to 0 for darkest and 255 for brightest
+LED_INVERT     = False   # True to invert the signal (when using NPN transistor level shift)
+LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
+
+LED_PIN2       = 13
+LED_CHANNEL2   = 1
+PIXEL_WIDTH    = 1
+SPEED          = 1000.0
+# Define functions which animate LEDs in various ways.
+def colorWipe(strip, color, wait_ms=50):
+    """Wipe color across display a pixel at a time."""
+    for i in range(strip.numPixels()):
+        strip.setPixelColor(i, color)
+        strip.show()
+        time.sleep(wait_ms/10000.0)
+
+
+
+def quantumlights(strip1, strip2 , color1_1 , color1_2 , color2_1 , color2_2,s1p , s2p, wait_ms = 50):
+    # Clears the first pulse of lights
+    if s1p != LED_COUNT - 1:
+        strip1.setPixelColor(s1p+1, Color(0,0,0))
+    if s2p != LED_COUNT - 1:
+        strip2.setPixelColor(s2p+1, Color(0,0,0))
+    if s1p == LED_COUNT - 1:
+        strip1.setPixelColor(0, Color(0,0,0))
+    if s2p == LED_COUNT - 1:
+        strip2.setPixelColor(0, Color(0,0,0))
+
+    # Clears the second pulse of lights
+    if (s1p + LED_SEPERATION + 1 + 1)% LED_COUNT < LED_COUNT:
+        strip1.setPixelColor((s1p + LED_SEPERATION + 1)%LED_COUNT, Color(0,0,0))
+    if (s2p + LED_SEPERATION + 1 + 1)% LED_COUNT < LED_COUNT:
+        strip2.setPixelColor((s2p + LED_SEPERATION + 1)%LED_COUNT, Color(0,0,0))
+    for x in range(PIXEL_WIDTH):
+        strip1.setPixelColor((s1p + LED_SEPERATION - x)%LED_COUNT, color1_2)
+        strip2.setPixelColor((s2p + LED_SEPERATION - x)%LED_COUNT, color2_2)
+        # for j in range(12):
+        # # Call is_touched and pass it then number of the input.  If it's touched
+        # # it will return True, otherwise it will return False.
+        #    if mpr121[j].value:
+        #        print("Input {} touched!".format(j))
+        #time.sleep(0.25)  # Small delay to keep from spamming output messages.
+        strip1.setPixelColor((s1p - x)% LED_COUNT, color1_1)
+        strip2.setPixelColor((s2p - x) % LED_COUNT, color2_1)
+
+    strip1.show()
+    strip2.show()
+    time.sleep(wait_ms/SPEED)
+# 
+# 
+# 
+convert = {23:0 , 22:1 , 21:2 , 20:3 , 19:4 , 18:5, 17:6,
+            16:7 , 15:6 , 14:7 , 13:8 , 12:9 , 11:10, 10:11,
+            9:12}
+touch_array = np.zeros(24)
+s1touch = np.zeros(12)
+def s1touch(s1):
+    pos = (s1 + 8) // 8
+    pos1measurement = 0
+    color1measurement = 0
+    s1touch = np.zeros(12)
+    for i in range(12):
+        # Call is_touched and pass it then number of the input.  If it's touched
+        # it will return True, otherwise it will return False.
+           if mpr121[i].value:
+               s1touch[i] = 1
+    if s1touch[(pos - 1)%12] == 1 and s1touch[(pos + 2)%12] == 1 :
+        pos1measurement = 1
+    if (s1touch[(pos + 1)%12]) or (s1touch[(pos + 2)% 12]):
+        color1measurement = 1
+    # print (pos , (pos + LED_SEPERATION // 8)%24)
+    return pos1measurement , color1measurement
+
+
+
+
+
+# def touch_code(s1 , s2):
+#     b1 = s1 //8
+#     b2 = s2 //8
+#     touch_array = np.zeros(24)
+#     for i in range(12):
+#         # Call is_touched and pass it then number of the input.  If it's touched
+#         # it will return True, otherwise it will return False.
+#            if mpr121[i].value:
+#                touch_array[i] = 1
+#     # for i in range(12):
+#     #     if mpr1212[i].value:
+#     #         touch_array[i + 12] = 1
+#     # for i in range(12):
+#     #     if mpr1213[i].value:
+#     #         touch_array[i + 24] = 1
+#     pos1measurement = 0
+#     color1measurement = 0
+#     pos2measurement = 0
+#     color2measurement = 0
+#     if b1 < 12 and touch_array[b1] == 1 and touch_array[b1 + 3] == 1 :
+#         pos1measurement = 1
+#     print(b1)
+#     if (b1 < 12 and touch_array[b1 + 1]) or (touch_array[(b1 + 2)%24 ] and b1 < 12):
+#         color1measurement = 1
+#     # if touch_array[b2 + 12] == 1 and touch_array[b2 + 12 + LED_SEPERATION // 4] == 1:
+#     #     pos2measurement = 1
+#     # if touch_array[b2 + 12 + 1] or touch_array[b2 + 12 + 2]:
+#     #     color2measurement = 1
+    
+#     return pos1measurement , color1measurement
+    # , pos2measurement , color2measurement
+
+
+            #    print("Input {} touched!".format(j))
+        # time.sleep(0.25)  # Small delay to keep from spamming output messages.
+def testlight():
+    for i in range(0 , 255 , 10):
+        for j in range (0, 255 , 10):
+            for k in range(0, 255, 10):
+                for x in range(3):
+                    # print(i , j , k)
+                    strip2.setPixelColor(50 - x, Color(i , j , k))
+                # strip2.setPixelColor((s2p - x) % LED_COUNT, color2_1)
+                strip2.show()
+    # strip2.show()
+        time.sleep(50/100)
+
+
+def test2():
+    for x in range(3):
+        strip2.setPixelColor(50-x, red)
+        strip2.setPixelColor(50 - x  + LED_SEPERATION, blue)
+
+    strip2.show()
+    time.sleep(1/20)
+
+
+def theaterChaseRainbow(strip, wait_ms=50):
+    """Rainbow movie theater light style chaser animation."""
+    for j in range(256):
+        for q in range(3):
+            for i in range(0, strip.numPixels(), 3):
+                strip.setPixelColor(i+q, wheel((i+j) % 255))
+            strip.show()
+            time.sleep(wait_ms/1000.0)
+            for i in range(0, strip.numPixels(), 3):
+                strip.setPixelColor(i+q, 0)
+
+# Main program logic follows:
+if __name__ == '__main__':
+    # Process arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-c', '--clear', action='store_true', help='clear the display on exit')
+    args = parser.parse_args()
+
+    # Create NeoPixel object with appropriate configuration.
+    strip1 = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+    strip2 = Adafruit_NeoPixel(LED_COUNT, LED_PIN2, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL2)
+    # Intialize the library (must be called once before other functions).
+    strip1.begin()
+    strip2.begin()
+
+    print ('Press Ctrl-C to quit.')
+    if not args.clear:
+        print('Use "-c" argument to clear LEDs on exit')
+    # color1 = Color(255,0,0) #red
+    # color2 = Color(255,0,0) #red
+    # color3 = Color(0,0,255) #blue
+    # color4 = Color(0,0,255) #blue
+    purple = Color(128,0,128)
+    red = Color(255,0,0)
+    blue = Color(0,0,255)
+    color1 = color2 = color3 = color4 = purple
+
+    s1flag = 0
+    s2flag = 0
+    touch = 0
+    times = 0
+    touchsensors = np.zeros(24)
+    try:
+        s1p = strip1.numPixels() - 1
+        s2p = strip2.numPixels() - 1
+
+        while True:
+            #print ('Color wipe animations.')
+            if times % 100 == 0 and s1flag == 1:
+                s1flag = 0
+                s1p = strip1.numPixels() - 1
+                s2p = strip2.numPixels() - 1
+                touch = 0
+                color1 = red
+                colorWipe(strip1, Color(0,0,0), 0.1)
+                colorWipe(strip2, Color(0,0,0), 0.1)
+            if s1p == -1:
+                s1p = LED_COUNT - 1
+            if s2p == -1:
+                s2p = LED_COUNT - 1
+            # print("Loop")
+            # testlight()
+            quantumlights(strip1 , strip2, color1 , color2 ,color3 , color4, s1p, s2p)
+            x , y = s1touch(s1p)
+            if y:
+                color3 = red
+                color4 = blue
+                
+            print(s1flag , y)
+            # for j in range(12):
+            # # Call is_touched and pass it then number of the input.  If it's touched
+            # # it will return True, otherwise it will return False.
+            #     if mpr121[j].value:
+            #        print("Input {} touched!".format(j))
+            # print(touch_code(s1p , s2p))
+                #    time.sleep(0.25)
+            #        s1flag = 1
+            #        times = 0
+            #        touch = 1
+            if touch == 1:
+                color1 = purple
+            if s1flag == 0:
+                s1p -= 1
+            if s2flag == 0:
+                s2p -= 1
+            times += 1
+
+
+
+    except KeyboardInterrupt:
+        if args.clear:
+            colorWipe(strip1, Color(0,0,0), 1)
+            colorWipe(strip2, Color(0,0,0), 1)
