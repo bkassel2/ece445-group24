@@ -18,8 +18,10 @@ import random
 i2c = busio.I2C(board.SCL, board.SDA)
 
 # Create MPR121 object.
-mpr121 = adafruit_mpr121.MPR121(i2c , address = 0x5a)
-#mpr1212 = adafruit_mpr121.MPR121(i2c , address = 0x5b)
+mpr121 = 0
+mpr1212 = 0
+mpr121 = adafruit_mpr121.MPR121(i2c , address = 0x5b)
+mpr1212 = adafruit_mpr121.MPR121(i2c , address = 0x5a)
 #mpr1213 = adafruit_mpr121.MPR121(i2c , address = 0x5c)
 #mpr1214 = adafruit_mpr121.MPR121(i2c , address = 0x5d)
 
@@ -90,9 +92,11 @@ def quantumlights(strip1, strip2 , color1_1 , color1_2 , color2_1 , color2_2,s1p
 
 touch_array = np.zeros(24)
 s1touch = np.zeros(12)
-if mpr121:
+if mpr121:    
     def s1touch(s1):
-        pos = (s1 + 8)%144 // 8
+        pos = -1
+        if s1 >= 8 and s1 <= 144+8:
+            pos = (s1 - 8) // 8
         pos1measurement = 0
         color1measurement = 0
         s1touch = np.zeros(12)
@@ -101,38 +105,67 @@ if mpr121:
             # it will return True, otherwise it will return False.
             if mpr121[i].value:
                 s1touch[i] = 1
-        if s1touch[(pos - 1)%12] == 1 and s1touch[(pos + LED_SEPERATION//8)%12] == 1 :
-            pos1measurement = 1
-        print("S1")
-        print(s1touch)
-        print(s1touch[0])
-        print(pos)
+        # print(pos , (pos + LED_SEPERATION//8))
+        for i in range(LED_SEPERATION//8//2):
+            for j in range(LED_SEPERATION//8 // 2):
+                if (s1touch[(pos + i)%12] == 1 or s1touch[(pos + j + LED_SEPERATION//8)%12] == 1) and pos!= -1:
+                    pos1measurement = 1
+        # print(s1touch)
+        # print(sum(s1touch))
+        # print(s1touch[0])
         for i in range(LED_SEPERATION // 8 //2):
-            if pos + i < 12:
-                if (s1touch[(pos+ i)]):
+            if pos + i + 2 < 12:
+                if (s1touch[(pos+ i + 2)] and sum(s1touch) == 1):
                     color1measurement = 1
         # print (pos , (pos + LED_SEPERATION // 8)%24)
         return pos1measurement , color1measurement
-try:
-    s2touch = np.zeros(12)
+
+s2touch = np.zeros(12)
+if mpr1212:
     def s2touch(s1):
-        pos = (s1 + 8) // 8
+        pos = -1
+        if s1 >= 8 and s1 <= 144+8:
+            pos = (s1 - 8) // 8
         pos1measurement = 0
         color1measurement = 0
-        s1touch = np.zeros(12)
+        s2touch = np.zeros(12)
         for i in range(12):
             # Call is_touched and pass it then number of the input.  If it's touched
             # it will return True, otherwise it will return False.
             if mpr1212[i].value:
-                s1touch[i] = 1
-        if s1touch[(pos - 1)%12] == 1 and s1touch[(pos + 2)%12] == 1 :
-            pos1measurement = 1
-        if (s1touch[(pos + 1)%12]) or (s1touch[(pos + 2)% 12]):
-            color1measurement = 1
+                s2touch[i] = 1
+        print(pos , (pos + LED_SEPERATION//8))
+        for i in range(LED_SEPERATION//8//2):
+            for j in range(LED_SEPERATION//8 // 2):
+                if (s2touch[(pos + i)%12] == 1 or s2touch[(pos + j + LED_SEPERATION//8)%12] == 1) and pos!= -1:
+                    pos1measurement = 1
+        print(s2touch)
+        # print(sum(s1touch))
+        # print(s1touch[0])
+        for i in range(LED_SEPERATION // 8 //2):
+            if pos + i + 2 < 12:
+                if (s2touch[(pos+ i + 2)] and sum(s2touch) == 1):
+                    color1measurement = 1
         # print (pos , (pos + LED_SEPERATION // 8)%24)
         return pos1measurement , color1measurement
-except:
-    pass
+
+
+    # def s2touch(s1):
+    #     pos = (s1 + 8) // 8
+    #     pos1measurement = 0
+    #     color1measurement = 0
+    #     s1touch = np.zeros(12)
+    #     for i in range(12):
+    #         # Call is_touched and pass it then number of the input.  If it's touched
+    #         # it will return True, otherwise it will return False.
+    #         if mpr1212[i].value:
+    #             s1touch[i] = 1
+    #     if s1touch[(pos - 1)%12] == 1 and s1touch[(pos + 2)%12] == 1 :
+    #         pos1measurement = 1
+    #     if (s1touch[(pos + 1)%12]) or (s1touch[(pos + 2)% 12]):
+    #         color1measurement = 1
+    #     # print (pos , (pos + LED_SEPERATION // 8)%24)
+    #     return pos1measurement , color1measurement
     
 
 
@@ -212,9 +245,27 @@ if __name__ == '__main__':
         s2p = LED_COUNT - LED_SEPERATION - 1
         while True:
             # Reset
-            if (times % 100 == 0 or s2p == LED_COUNT or s1p == LED_COUNT)and s1flag == 1 :
+            if (times % 100 == 0 or s2p == LED_COUNT - LED_SEPERATION )and s1flag == 1 :
                 print("reached")
                 s1flag = 0
+                s2flag = 0
+                s1p = LED_COUNT - LED_SEPERATION - 1
+                s2p = LED_COUNT - LED_SEPERATION - 1
+                color1 = color2 = color3 = color4 = purple
+                colorWipe(strip1, Color(0,0,0), 0.1)
+                colorWipe(strip2, Color(0,0,0), 0.1)
+                p1 = -1
+                p2 = -1
+                p1f = -1
+                p2f = -1
+                c1f = -1
+                c2f = -1
+                firstmeasurent = 1
+                firsttype = -1
+            if (times % 100 == 0 or s1p == LED_COUNT - LED_SEPERATION )and s2flag == 1 :
+                print("reached")
+                s1flag = 0
+                s2flag = 0
                 s1p = LED_COUNT - LED_SEPERATION - 1
                 s2p = LED_COUNT - LED_SEPERATION - 1
                 color1 = color2 = color3 = color4 = purple
@@ -230,7 +281,6 @@ if __name__ == '__main__':
                 firsttype = -1
 
 
-
             if s1p == -1:
                 s1p = LED_COUNT - 1
             if s2p == -1:
@@ -241,40 +291,36 @@ if __name__ == '__main__':
                 s1p = p1
             if s2flag:
                 s2p = p2
+            # color1 = blue
             quantumlights(strip1 , strip2, color1 , color2 ,color3 , color4, s1p, s2p)
+
             pos1f , color1f = s1touch(s1p)
-            if color1f:
+            if color1f and not s1flag:
                 if firstmeasurent:
                     x = random.randint(0,10000) % 2
                     firstmeasurent = 0
                     firsttype = 0
                     if x:
-                        color1 = red
-                        color2 = blue
+                        color1 = color2 =red
                         c1f = 0
                     else:
-                        color1 = blue
-                        color2 = red
+                        color1 = color2 =blue
                         c1f = 1
                 elif firsttype == 0:
                     if c2f:
-                        color1 = red
-                        color2 = blue
+                        color1 = color2 =red
                     else:
-                        color1 = blue
-                        color2 = red
+                        color1 = color2 =blue
                 else:
                     x = random.randint(0,10000) % 2
                     if x:
-                        color1 = red
-                        color2 = blue
+                        color1 = color2 =red
                     else:
-                        color1 = blue
-                        color2 = red
+                        color1 = color2 =blue
                 p1 = s1p
                 s1flag = 1
                 times = 1
-            if pos1f:
+            if pos1f and not s1flag:
                 if firstmeasurent:
                     x = random.randint(0,10000) % 2
                     firstmeasurent = 0
@@ -299,31 +345,57 @@ if __name__ == '__main__':
                 p1 = s1p
                 s1flag = 1
                 times = 1
-            # pos2f , color2f = s2touch(s2p) 
-            # if color2f:
-            #     color1 = red
-            #     color2 = blue
-            #     p2 = s2p
-            #     s2flag = 1
-            #     times = 1   
-            # if pos2f:
-            #     if firstmeasurent:
-            #         x = random.randint(0,10000) % 2
-            #         if x:
-            #             color3 = black
-            #             p2f = 0
-            #         else:
-            #             color4 = black
-            #             p2f = 1
-            #     else:
-            #         if p1f:
-            #             color3 = black
-            #         else:
-            #             color4 = black
-            #     p2 = s2p
-            #     s1flag = 1
-            #     times = 1 
-            # print(pos1flag , color1f)
+            pos2f , color2f = s2touch(s2p) 
+            if color2f and not s2flag:
+                if firstmeasurent:
+                    x = random.randint(0,10000) % 2
+                    firstmeasurent = 0
+                    firsttype = 0
+                    if x:
+                        color3 = color4 =red
+                        c2f = 0
+                    else:
+                        color3 = color4 =blue
+                        c2f = 1
+                elif firsttype == 0:
+                    if c1f:
+                        color3 = color4 =red
+                    else:
+                        color3 = color4 =blue
+                else:
+                    x = random.randint(0,10000) % 2
+                    if x:
+                        color3 = color4 =red
+                    else:
+                        color3 = color4 =blue
+                p2 = s2p
+                s2flag = 1
+                times = 1
+            if pos2f and not s2flag:
+                if firstmeasurent:
+                    x = random.randint(0,10000) % 2
+                    firstmeasurent = 0
+                    firsttype = 1
+                    if x:
+                        color3 = black
+                        p2f = 0
+                    else:
+                        color4 = black
+                        p2f = 1
+                elif firsttype == 1:
+                    if p1f:
+                        color3 = black
+                    else:
+                        color4 = black
+                else:
+                    x = random.randint(0,10000) % 2
+                    if x:
+                        color3 = black
+                    else:
+                        color4 = black
+                p2 = s2p
+                s2flag = 1
+                times = 1
 
             if s1flag == 0:
                 s1p -= 1

@@ -16,7 +16,8 @@ import adafruit_mpr121
 i2c = busio.I2C(board.SCL, board.SDA)
 
 # Create MPR121 object.
-mpr121 = adafruit_mpr121.MPR121(i2c , address = 0x5a)
+mpr121 = adafruit_mpr121.MPR121(i2c , address = 0x5b)
+mpr1212 = adafruit_mpr121.MPR121(i2c , address = 0x5a)
 
 # Note you can optionally change the address of the device:
 # mpr121 = adafruit_mpr121.MPR121(i2c, address=0x91)
@@ -28,5 +29,10 @@ while True:
         # Call is_touched and pass it then number of the input.  If it's touched
         # it will return True, otherwise it will return False.
         if mpr121[i].value:
-            print("Input {} touched!".format(i))
+            print("B Input {} touched!".format(i))
+    for i in range(12):
+        # Call is_touched and pass it then number of the input.  If it's touched
+        # it will return True, otherwise it will return False.
+        if mpr1212[i].value:
+            print("C Input {} touched!".format(i))
     time.sleep(0.25)  # Small delay to keep from spamming output messages.

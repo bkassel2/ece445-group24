@@ -9,7 +9,7 @@ import argparse
 import board
 import busio
 import adafruit_mpr121
-import numpy as np 
+import numpy as np
 import random
 # Create I2C bus.
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -20,8 +20,7 @@ mpr1212 = 0
 mpr121 = adafruit_mpr121.MPR121(i2c , address = 0x5b)
 mpr1212 = adafruit_mpr121.MPR121(i2c , address = 0x5a)
 
-
-LED_SEPERATION = 36     #Seperation in  4 pixel per inch 
+LED_SEPERATION = 20     #Seperation in  4 pixel per inch 
 LED_COUNT      = 144 + LED_SEPERATION      # Number of LED pixels.
 LED_PIN        = 18      # GPIO pin connected to the pixels (18 uses PWM!).
 LED_FREQ_HZ    = 800000  # LED signal frequency in hertz (usually 800khz)
@@ -33,8 +32,7 @@ LED_CHANNEL    = 0       # set to '1' for GPIOs 13, 19, 41, 45 or 53
 LED_PIN2       = 13
 LED_CHANNEL2   = 1
 PIXEL_WIDTH    = 3
-SPEED          = 1000.0
-RESET_RATE       = 50
+SPEED          = 2000.0
 
 
 COLOR0 = "colormeasurment0".encode()
@@ -42,6 +40,75 @@ COLOR1 = "colormeasurment1".encode()
 POS0 = "positionmeasurement0".encode()
 POS1 = "positionmeasurement1".encode()
 RESET = "rest".encode()
+
+
+# activate the pygame library
+# initiate pygame and give permission
+# to use pygame's functionality.
+pygame.init()
+ 
+# define the RGB value for white,
+#  green, blue colour .
+out = ['   ', '0' , '1']
+white = (255, 255, 255)
+green = (0, 255, 0)
+blue = (0, 128, 128)
+red = (255,0,0)
+purple = (128,0,128)
+black = (0,0,0)
+# assigning values to X and Y variable
+X = 500
+Y = 500
+
+# create the display surface object
+# of specific dimension..e(X, Y).
+display_surface = pygame.display.set_mode((X, Y))
+ 
+# set the pygame window name
+# pygame.display.set_caption('Show Text')
+ 
+# create a font object.
+# 1st parameter is the font file
+# which is present in pygame.
+# 2nd parameter is size of the font
+font = pygame.font.Font('freesansbold.ttf', 128)
+ 
+# create a text surface object,
+# on which text is drawn on it.
+text = font.render(out[0], True, purple, black)
+ 
+# create a rectangular object for the
+# text surface object
+textRect = text.get_rect()
+ 
+# set the center of the rectangular object.
+textRect.center = (X // 2, Y // 2)
+ 
+# infinite loop
+def showscreen(texts):
+    # completely fill the surface object
+    # with white color
+    # display_surface.fill(black)
+    # copying the text surface object
+    # to the display surface object
+    # at the center coordinate.
+    # print("Hi")
+    display_surface.blit(texts, textRect)
+    # iterate over the list of Event objects
+    # that was returned by pygame.event.get() method.
+    for event in pygame.event.get():
+        # if event object type is QUIT
+        # then quitting the pygame
+        # and program both.
+        if event.type == pygame.QUIT:
+            # deactivates the pygame library
+            pygame.quit()
+            # quit the program.
+            quit()
+        # Draws the surface object to the screen.
+        pygame.display.update()
+
+
 
 def colorWipe(strip, color, wait_ms=50):
     """Wipe color across display a pixel at a time."""
@@ -105,7 +172,7 @@ if mpr121:
         # print(pos , (pos + LED_SEPERATION//8))
         for i in range(LED_SEPERATION//8//2):
             for j in range(LED_SEPERATION//8 // 2):
-                if (s1touch[(pos + i)%12] == 1 or s1touch[(pos + j + LED_SEPERATION//8)%12] == 1) and pos!= -1:
+                if s1touch[(pos + i)%12] == 1 and s1touch[(pos + j + LED_SEPERATION//8)%12] == 1 and pos!= -1:
                     pos1measurement = 1
         print(s1touch)
         # print(sum(s1touch))
@@ -134,7 +201,7 @@ if mpr1212:
         # print(pos , (pos + LED_SEPERATION//8))
         for i in range(LED_SEPERATION//8//2):
             for j in range(LED_SEPERATION//8 // 2):
-                if (s2touch[(pos + i)%12] == 1 or s2touch[(pos + j + LED_SEPERATION//8)%12] == 1 )and pos!= -1:
+                if s2touch[(pos + i)%12] == 1 and s2touch[(pos + j + LED_SEPERATION//8)%12] == 1 and pos!= -1:
                     pos1measurement = 1
         # print(s2touch)
         # print(sum(s1touch))
@@ -166,8 +233,8 @@ def server():
     strip2.begin()
 
     host = socket.gethostname()   # get local machine name
-    port = 8002  # Make sure it's within the > 1024 $$ <65535 range
-    port2 = 5002
+    port = 8000  # Make sure it's within the > 1024 $$ <65535 range
+    port2 = 5000
     s = socket.socket()
     s.bind((host, port))
     s2 = socket.socket()
@@ -185,19 +252,14 @@ def server():
 
 
     color1 = color2 = color3 = color4 = purple
-    # flags to check if a measurement has been done on one arm
     s1flag = 0
     s2flag = 0
     touch = 0
-    # Used for reset when both sides have been measured
     times = 0
-    # Variable to pause the LED when measured
     p1 = -1
     p2 = -1
-    # Position measurement flag
     p1f = -1
     p2f = -1
-    # Color measurement flag
     c1f = -1
     c2f = -1
     firstmeasurent = 1
@@ -208,7 +270,7 @@ def server():
 
     while True:
         try:
-            if (times % RESET_RATE == 0 or s2p == LED_COUNT - LED_SEPERATION )and s1flag == 1 :
+            if (times % 50 == 0 or s2p == LED_COUNT - LED_SEPERATION )and s1flag == 1 :
                 print("reached")
                 s1flag = 0
                 s2flag = 0
@@ -227,7 +289,7 @@ def server():
                 firsttype = -1
                 Monitor1.send(RESET)
                 Monitor2.send(RESET)
-            if (times % RESET_RATE == 0 or s1p == LED_COUNT - LED_SEPERATION )and s2flag == 1 :
+            if (times % 50 == 0 or s1p == LED_COUNT - LED_SEPERATION )and s2flag == 1 :
                 print("reached")
                 s1flag = 0
                 s2flag = 0

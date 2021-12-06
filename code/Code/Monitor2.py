@@ -13,7 +13,7 @@ pygame.init()
 out = ['   ', '0' , '1']
 white = (255, 255, 255)
 green = (0, 255, 0)
-blue = (0, 0, 128)
+blue = (0, 128, 128)
 red = (255,0,0)
 purple = (128,0,128)
 black = (0,0,0)
@@ -69,13 +69,17 @@ def showscreen(texts):
         # Draws the surface object to the screen.
         pygame.display.update()
 
-
+COLOR0 = "colormeasurment0".encode()
+COLOR1 = "colormeasurment1".encode()
+POS0 = "positionmeasurement0".encode()
+POS1 = "positionmeasurement1".encode()
+RESET = "rest".encode()
 
 
 
 def client():
     host = socket.gethostname()  # get local machine name
-    port = 5004  # Make sure it's within the > 1024 $$ <65535 range
+    port = 5002  # Make sure it's within the > 1024 $$ <65535 range
 
     s = socket.socket()
     s.connect((host, port))
@@ -83,20 +87,40 @@ def client():
     message = 0
     prev = 0
     timer = 1000
-    while message != 'q':
+    msg = out[0]
+    msgcolor = purple
+    while message != "Quit".encode():
         # s.send(message.encode('utf-8'))
         try:
-            data = s.recv(1024).decode('utf-8')
+            data = s.recv(1024)
             message = data
-            if message == 'q':
+            if message == "Quit".encode():
                 break
-            print(message , int(message) % 3)
+            # print(data)
             event = pygame.event.Event(pygame.KEYUP, key=pygame.K_r)
             pygame.event.post(event)
+            if message == COLOR0:
+                msg = out[1]
+                msgcolor = red
+            if message == COLOR1:
+                msg = out[2]
+                msgcolor = blue
+            if message == POS0:
+                msg = out[1]
+                msgcolor = purple
+            if message == POS1:
+                msg = out[2]
+                msgcolor = purple
+            if message == RESET:
+                msg = out[0]
+                msgcolor = black
         except BlockingIOError:
             data = 0
-        
-        showscreen(font.render(out[int(message) % 3], True, purple, black))
+        except KeyboardInterrupt:
+            msg = "Done".encode()
+            s.send(msg)
+            message = "Quit".encode()
+        showscreen(font.render(msg, True, msgcolor, black))
 
         # print('Received from server: ' + data)
         # message = input('==> ')s
