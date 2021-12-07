@@ -169,8 +169,10 @@ def server():
     port = 8002  # Make sure it's within the > 1024 $$ <65535 range
     port2 = 5002
     s = socket.socket()
+    s.setsockopt(socket.SO_REUSEADDR)
     s.bind((host, port))
     s2 = socket.socket()
+    s2.setsockopt(socket.SO_REUSEADDR)
     s2.bind((host, port2))
     s.listen(5)
     s2.listen(5)
