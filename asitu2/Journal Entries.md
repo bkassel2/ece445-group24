@@ -22,24 +22,24 @@ Worked on the design documents. After going to the decoument check on 9/24 we mo
 # 10-3-2021 - Meeting with a TA about our microcontroller
 Had a video meeting with Evan who mentioned some limiations for the touch capcactiros not working after 4 feet of wires and the fact that we should not drive VGA displays with a microcontroller. We talked about alternatives for the display output and the concerns with the touch capcactiros did not affect out intended use case. Some alternatives included using multiple microcontrollers one to process logic and two more for each monitor. We also started talking about using a raspberry pi to drive the displays while processing everything else on the microcontroller. Evan also mentioned that we should probably use ps2 keyboards since their protocal are easier to use.
 
-# 10-5-2021
+# 10-5-2021 - Design document flow chart
 I created a flow chart to add to our design document for how the software would run. 
 PICTURE
 We had the design document review with the professor and some of the TAs. We talked to the professor and where allowed to use the raspberry pi to output our display for this project.
 
-# 10-6-2021 - 10-11-2021
+# 10-6-2021 - 10-11-2021 - Finding parts and working on the PCB
 Found a new microcontroller since we are moving to outputting the display on the raspi. We looked for one that could transmit data to the raspi and process 2 LEDs, two ps2 keyboards, and the capacitive touch breakoutboards which needed a spi and sda pin on the microcontroller. We also started working on the PCB to try and get it in for the first round of PCBs. Ended up not creating the design in time for that.
 
-# 10-13-2021
+# 10-13-2021 - Finished PCB
 Ian finished the first draft of our PCB and check it with a TA. He also ordered it.
 
-# 10-15-2021
+# 10-15-2021 - Ordered parts
 We ordered all of our parts that we decided on and messaged our sponsered professor to order the LEDs, raspberry pi and power supply.
 
-# 10-20-2021
+# 10-20-2021 - Getting all the parts
 I went to professor Kwiat office and grabbed all the parts that came in from Amazon. Additionally the Ian recieved the PCBs and the other parts that we have ordered has arrived in the business office.
 
-# 10-23-2021
+# 10-23-2021 - Ordering other parts
 Relized we forgot to order some of the resistors and other small parts for the PCB and placed the order.
 
 
