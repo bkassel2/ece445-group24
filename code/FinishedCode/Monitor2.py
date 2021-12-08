@@ -6,6 +6,8 @@ import pygame
 # activate the pygame library
 # initiate pygame and give permission
 # to use pygame's functionality.
+FONTSIZE = 128
+MEMORYLEN = 8
 pygame.init()
  
 # define the RGB value for white,
@@ -32,12 +34,15 @@ display_surface = pygame.display.set_mode((X, Y))
 # 1st parameter is the font file
 # which is present in pygame.
 # 2nd parameter is size of the font
-font = pygame.font.Font('freesansbold.ttf', 128)
+font = pygame.font.Font('freesansbold.ttf', FONTSIZE)
  
 # create a text surface object,
 # on which text is drawn on it.
 text = font.render(out[0], True, purple, black)
- 
+mem  = font.render(out[0], True, purple, black)
+textBuf = mem.get_rect()
+textBuf.center = (FONTSIZE//2 , Y - FONTSIZE//2)
+buf = ""
 # create a rectangular object for the
 # text surface object
 textRect = text.get_rect()
@@ -47,6 +52,7 @@ textRect.center = (X // 2, Y // 2)
  
 # infinite loop
 def showscreen(texts):
+    global buf
     # completely fill the surface object
     # with white color
     # display_surface.fill(black)
@@ -54,7 +60,14 @@ def showscreen(texts):
     # to the display surface object
     # at the center coordinate.
     # print("Hi")
+    texts = font.render(msg, True, msgcolor, black)
     display_surface.blit(texts, textRect)
+
+    buf += msg
+    if len(buf) > MEMORYLEN:
+        buf = buf[1:]
+    text = font.render(buf, True, msgcolor, black)
+    display_surface.blit(text, textBuf)
     # iterate over the list of Event objects
     # that was returned by pygame.event.get() method.
     for event in pygame.event.get():
@@ -120,7 +133,9 @@ def client():
             msg = "Done".encode()
             s.send(msg)
             message = "Quit".encode()
-        showscreen(font.render(msg, True, msgcolor, black))
+
+            
+        showscreen(msg , msgcolor)
 
         # print('Received from server: ' + data)
         # message = input('==> ')s
