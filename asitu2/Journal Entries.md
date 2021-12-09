@@ -64,9 +64,6 @@ Me and Ben talked to another student in the lab, and we figured out that our mic
 # 11-7-2021-Started testing capacitive touch
 I was able to get the raspi code to work with 2 LED strips. Ian soldering on header pins for our capacitive breakout boards. Once those we soldered on, I tested a very simple program to see if the capacitive touch worked and then tried to combines that code for the capacitive touch with our LEDs so that when someone touch it the lights would stop. We also tested the max distance wires could go reliability on the breakout boards and the distance was around 3 ft from the board. Additionally, we were able to get two strips and two breakout boards working within the program. The capacitive touch sensor was ran using the mpr121 library that from ada fruit where the product was listed
 
-<video width="320" height="240" controls>
-  <source src="LED_testing.mov" type="video/mp4">
-</video>
 # 11-9-2021-Meeting Professor Kwiat in Loomis
 I meet with the professor to demonstrate how the LEDs are looking. However the raspi os somehow stopped working and I was only able to display the default outputs of the LEDs to the professor.
 
