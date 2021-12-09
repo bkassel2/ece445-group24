@@ -37,9 +37,16 @@ Ian finished the first draft of our PCB and check it with a TA. He also ordered 
 
 # 10-15-2021 - Ordered parts
 We ordered all of our parts that we decided on and messaged our sponsored professor to order the LEDs, raspberry pi and power supply.
+Parts we ordered:
+Microcontroller ATMEGA328-PU * 2
+Capacitive Touch Sensor Breakout * 4
+5m Copper Tape * 3
+PS2 connectors * 2
+Knob
+
 
 # 10-20-2021 - Getting all the parts
-I went to professor Kwiat office and grabbed all the parts that came in from Amazon. Additionally, the Ian received the PCBs and the other parts that we have ordered has arrived in the business office.
+I went to professor Kwiat office and grabbed all the parts that came in from Amazon. Additionally, Ian received the PCBs and the other parts that we have ordered has arrived in the business office.
 
 <img src="Parts.jpg" width = "600"/>
 
