@@ -11,7 +11,7 @@ The Team had a meeting with our sponsored professor, Professor Kwiat, about the 
 We decided to start the project proposal and look for some parts. I was looking up the different types of sensors we could use as input for the two sections of 3-foot LEDs so that there would be inputs at every 2 inches for the prototype. Initially I was looking at already created touch capacitive switches, but they were only around 3 inches each at $7 per module which would be much too expensive for the given budget. I also looked at flex sensors and resistive sensors, but they had their own problems. Ian ended up finding a capacitive touch board that allowed for 12 capacitive touch inputs that we would have to make ourselves out of some conductive material. 
 
 # 9-14-2021 - Meeting with TA
-Had a meeting with our TA and got feedback on our Design Document. We needed to fix the Block Diagram that Ian created since it did not include which lines where what and the fixed the coloring for data and electric lines.
+Had a meeting with our TA and got feedback on our Project Proposal. We needed to fix the Block Diagram that Ian created since it did not include which lines where what and the fixed the coloring for data and electric lines.
 
 # 9-15-2021 - Finished the project proposal for the class
 Our group met up at 6 and finished working on the project proposal that was being submitted for the class. I worked on filling out the problem and solution slide in addition to creating some visual aids for the proposal. I also helped fill out the description for the subsystems and block diagram.
@@ -63,6 +63,8 @@ Me and Ben talked to another student in the lab, and we figured out that our mic
 
 # 11-7-2021-Started testing capacitive touch
 I was able to get the raspi code to work with 2 LED strips. Ian soldering on header pins for our capacitive breakout boards. Once those we soldered on, I tested a very simple program to see if the capacitive touch worked and then tried to combines that code for the capacitive touch with our LEDs so that when someone touch it the lights would stop. We also tested the max distance wires could go reliability on the breakout boards and the distance was around 3 ft from the board. Additionally, we were able to get two strips and two breakout boards working within the program. The capacitive touch sensor was ran using the mpr121 library that from ada fruit where the product was listed
+
+<video src = "LED_testing.mp4" , width = 600>
 
 # 11-9-2021-Meeting Professor Kwiat in Loomis
 I meet with the professor to demonstrate how the LEDs are looking. However the raspi os somehow stopped working and I was only able to display the default outputs of the LEDs to the professor.
