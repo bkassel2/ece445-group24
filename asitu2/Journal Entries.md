@@ -25,7 +25,7 @@ Had a video meeting with Evan who mentioned some limitations for the touch capac
 # 10-5-2021 - Design document flow chart
 I created a flow chart to add to our design document for how the software would run. 
 
-<img src="9-9_Kwiat_Drawing.png" width = "600"/>
+<img src="Flow_chart_445.png" width = "600"/>
 
 We had the design document review with the professor and some of the TAs. We talked to the professor and were allowed to use the raspberry pi to output our display for this project.
 
