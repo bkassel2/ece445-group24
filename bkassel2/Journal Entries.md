@@ -22,3 +22,13 @@ We had another meeting with Josephine today to discuss our Design Document. We w
 We are finally doing the rest of our design document. We have been able to finalize the first draft of our block diagram, and things are looking good. We are having nightly meetings on discord to just work through stuff a little bit at a time. We have also started looking for parts and microcontrollers. None of us have a huge knowledge of microcontrollers, so the process is just a lot of research. We will have to get help with how everything goes together.
 
 ![](design_doc.PNG)
+
+# Week of 9/27 - Finished Design Doc and Microcontroller Help
+
+I don't think we had too many problems with our design document overall. During meetings with Professor Kwiat, we were able to get help with our problem and proposed solution, visual aids, and high level requirements. The only remaining issue is the parts list, which includes a microcontroller. I reached our to Professor Arne and Evan, a TA for this class. The plan is to meet with either one of them to discuss how we would do our project using a microcontroller.
+
+# Week of 10/4 - Meeting with Evan, Parts List, and the Introduction of the Raspberry Pi
+
+Well, the meeting with Evan was pretty condescending, but helpful. Turns out that it would be nearly impossible to run the LEDs, touch sensors, and displays all from a microcontroller. After a meeting with Professor Arne, we have been given permission to use a Raspberry Pi 3 to help with the displays only. This is a huge boost for our team, as it makes the project significantly easier. We are also researching new parts given this new information and are hoping to have everything researched and purchased by next week. Professor Kwiat ordered the Raspi we would be using for this project pictured below.
+
+![](raspi_start_kit.PNG)
