@@ -24,7 +24,7 @@ Had a video meeting with Evan who mentioned some limiations for the touch capcac
 
 # 10-5-2021 - Design document flow chart
 I created a flow chart to add to our design document for how the software would run. 
-PICTURE
+<img src="9-9_Kwiat_Drawing.png" width = "600"/>
 We had the design document review with the professor and some of the TAs. We talked to the professor and where allowed to use the raspberry pi to output our display for this project.
 
 # 10-6-2021 - 10-11-2021 - Finding parts and working on the PCB
@@ -38,6 +38,7 @@ We ordered all of our parts that we decided on and messaged our sponsered profes
 
 # 10-20-2021 - Getting all the parts
 I went to professor Kwiat office and grabbed all the parts that came in from Amazon. Additionally the Ian recieved the PCBs and the other parts that we have ordered has arrived in the business office.
+<img src="Parts.jpg" width = "600"/>
 
 # 10-23-2021 - Ordering other parts
 Relized we forgot to order some of the resistors and other small parts for the PCB and placed the order.
@@ -45,7 +46,19 @@ Relized we forgot to order some of the resistors and other small parts for the P
 # 10-27-2021 - Resubmitted design document
 We modified our block diagram and tolerance analysis of the previous one since we decided to use a microcontroller to process the video output instead of the original microcontroller idea. For the tolerance analysis I added some analysis on how the copper wire would affect the capacitive touch breakout board. The final result was in line with what Evan mention where the wires stopped being reliable after 3 feet.
 
-# 10-29-2021 - Started working with the parts
+# 10-28-2021 - First day going to the Lab
+We had a meeting with our TA and then Ian started soldering the microcontroller and header pins onto the PCB. While he was doing that I was starting up the raspberry pi and installing the os and libraries we where planning on using. I also started testing the LED using the controller that came with the package and figuring how that worked with one strand. In addition, I also fried one of the LEDs strips trying to figure out how the library worked.
 
+# 11-2-2021 - Testing the LEDs
+Professor Kwiat asked us to try out various combination of visuals for the LEDs. I used the rspi_281x library to run through all the colors of the rainbow and brightnesses so the profesor had a good idea on how that looked like. Ian finished soldering the microcontroller and diodes to the PCB.
+
+# 11-4-2021-Meeting with our TA
+We asked our TA if we could borrow one of the USB programmer and a hdmi monitor from her lab.
+
+# 11-5-2021-Missing another part
+Me and Ben talked to another student in the lab and we figured out that our microcontroller does not work without an external crystal osillator. We order a 16MHz osillator and then went to work on the code raspi code for the LEDs so that it could pulse across a single strand.
+
+# 11-7-2021-Started testing capacitive touch
+I was able to get the raspi code to work with 2 LED strips. Ian soldering on header pins for our capacitive breakout boards. Once those we soldered on I tested a vert simple program to see if the capacitive touch worked and then tried to cobines that code for the capacitive touch with our LEDs so that when someone touch it the lights would stop.
 
 
