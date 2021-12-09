@@ -34,7 +34,7 @@ We filled out order forms for all of our parts including the microcontroller, ca
 Andrew picked up the parts from our sponsor, I received the PCBs, and we got notice that our parts arrived to the business office.
 
 # 10-23-2021 - Ordering More Parts
-We noticed that we needed some additional surface mount components for the PCB such as resistors and capacitors, and filled out order forms for them.
+We noticed that we needed some additional surface mount components for the PCB such as resistors and capacitors as well as headers for the PS/2 connections, and filled out order forms for them.
 
 # 10-27-2021 - Design Document Resubmission
 I modified the block diagram to reflect our new design plan which included the Raspberry Pi to drive the LED displays, and UART communication from the microcontroller to the Raspberry Pi. Andrew added a section to the tolerance analysis outlining the effects of transmission distance on the accuracy of capacitive touch sensors.
