@@ -30,7 +30,7 @@ I created a flow chart to add to our design document for how the software would 
 We had the design document review with the professor and some of the TAs. We talked to the professor and were allowed to use the raspberry pi to output our display for this project.
 
 # 10-6-2021 - 10-11-2021 - Finding parts and working on the PCB
-Found a new microcontroller since we are moving to outputting the display on the raspi. We looked for one that could transmit data to the raspi and process 2 LEDs, two ps2 keyboards, and the capacitive touch breakout boards which needed a spi and sda pin on the microcontroller. We also started working on the PCB to try and get it in for the first round of PCBs. Ended up not creating the design in time for that.
+Found a new microcontroller since we are moving to outputting the display on the raspi. We looked for one that could transmit data to the raspi and process 2 LEDs, two ps2 keyboards, and the capacitive touch breakout boards which needed a spi and sda pin on the microcontroller. We also started working on the PCB to try and get it in for the first round of PCBs. Ended up not creating the design in time for that. We ended up pickting the ATmega 328 P-PU since it meets all of those requirments.
 
 # 10-13-2021 - Finished PCB
 Ian finished the first draft of our PCB and check it with a TA. He also ordered it.
