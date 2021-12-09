@@ -39,10 +39,10 @@ Ian finished the first draft of our PCB and check it with a TA. He also ordered 
 We ordered all of our parts that we decided on and messaged our sponsored professor to order the LEDs, raspberry pi and power supply.
 
 Parts we ordered:
-Microcontroller ATMEGA328-PU
-Capacitive Touch Sensor Breakout
-5m Copper Tape 
-PS2 connectors 
+Microcontroller ATMEGA328-PU,
+Capacitive Touch Sensor Breakout,
+5m Copper Tape ,
+PS2 connectors ,
 Knob
 
 
