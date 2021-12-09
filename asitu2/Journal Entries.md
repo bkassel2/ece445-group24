@@ -105,7 +105,7 @@ The professor messages us that the tubing was not going to be in on time for our
 We constructed the entire demo putting the wire and tubing together and placing all the touch capacitor in the correct place on the board. Ian also started soldering wire to extend some female connectors to the capacitive touch boards and male connectors to some wires so we can easily connect them to the raspi. The physical project at this point is complete. All the components of the project is working.
 
 # 11-30-2021-Finishing demo
-I accidently did not connect the capacitive touch boards to common ground and then couldn’t figure out why it was not working. I ended up reinstalling the raspi os to try and fix that problem which wasted about 30 minutes. Once we figured out the problem, I finished the rest of the logic code for and combined the monitor code with the LED/touch logic and everything was running fine.
+I accidently did not connect the capacitive touch boards to common ground and then couldn’t figure out why it was not working. I ended up reinstalling the raspi os to try and fix that problem which wasted about 30 minutes. Once we figured out the problem, I finished the rest of the logic code for and combined the monitor code with the LED/touch logic since I needed to calibrate the new touch sensors with the placements of the LED and everything was running fine.
 
 
 
