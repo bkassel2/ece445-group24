@@ -42,5 +42,10 @@ I went to professor Kwiat office and grabbed all the parts that came in from Ama
 # 10-23-2021 - Ordering other parts
 Relized we forgot to order some of the resistors and other small parts for the PCB and placed the order.
 
+# 10-27-2021 - Resubmitted design document
+We modified our block diagram and tolerance analysis of the previous one since we decided to use a microcontroller to process the video output instead of the original microcontroller idea. For the tolerance analysis I added some analysis on how the copper wire would affect the capacitive touch breakout board. The final result was in line with what Evan mention where the wires stopped being reliable after 3 feet.
+
+# 10-29-2021 - Started working with the parts
+
 
 
