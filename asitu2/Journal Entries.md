@@ -55,6 +55,8 @@ We had a meeting with our TA and then Ian started soldering the microcontroller 
 # 11-2-2021 - Testing the LEDs
 Professor Kwiat asked us to try out various combination of visuals for the LEDs. I used the rspi_281x library to run through all the colors of the rainbow and brightnesses so the professor had a good idea on how that looked like. Ian finished soldering the microcontroller and diodes to the PCB.
 
+https://tutorials-raspberrypi.com/connect-control-raspberry-pi-ws2812-rgb-led-strips/
+
 # 11-4-2021-Meeting with our TA
 We asked our TA if we could borrow one of the USB programmers and a HDMI monitor from her lab.
 
@@ -63,6 +65,8 @@ Me and Ben talked to another student in the lab, and we figured out that our mic
 
 # 11-7-2021-Started testing capacitive touch
 I was able to get the raspi code to work with 2 LED strips. Ian soldering on header pins for our capacitive breakout boards. Once those we soldered on, I tested a very simple program to see if the capacitive touch worked and then tried to combines that code for the capacitive touch with our LEDs so that when someone touch it the lights would stop. We also tested the max distance wires could go reliability on the breakout boards and the distance was around 3 ft from the board. Additionally, we were able to get two strips and two breakout boards working within the program. The capacitive touch sensor was ran using the mpr121 library that from ada fruit where the product was listed
+
+https://learn.adafruit.com/adafruit-mpr121-12-key-capacitive-touch-sensor-breakout-tutorial
 
 # 11-9-2021-Meeting Professor Kwiat in Loomis
 I meet with the professor to demonstrate how the LEDs are looking. However the raspi os somehow stopped working and I was only able to display the default outputs of the LEDs to the professor.
